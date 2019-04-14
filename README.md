@@ -681,6 +681,95 @@ This script runs an unknown program `./pscan2` and `./ssh-scan 100`.
 It removes the file it generates completely. 
 
 
+---------------------------------------------
+
+# VirusShare_05eda75e7e1337d3e64a96495309296c.sh 
+
+## Summary
+1. Define a bard-coded C file that copies the current file to the `/bin/bash`. 
+2. Compile the file. 
+3. Save the old environment variable `RSHSAVE=$RSH`
+4. Use the `./cpbinbash` as the environment. I guess this is to trigger an exploit of `cdrecord` program. The comments of this script also indicates this. 
+5. Run `cdrecrod`.
+6. Retrive the environment variable `RSH=$RSHSAVE`, and remove internal files. 
+7. Execute local `./bash`, which is copied from `/bin/bash` by `./cpbinbash`. Because the `cdrecord` has root privilege, so the copied `./bash` has that privilege and also with `setuid` bit set. So the normal user can use this bash as a root. 
+8. 
+
+## Notes
+1. hard-coded file is suspicious
+2. remove after execution is very suspicious. 
+3. The cdrecord is reported to have vulnerabilities:
+> CVE-2005-0866, CVE-2004-0806, CVE-2003-0289. 
+
+4. New command (program) cdrecord. If a vulnerable command is executed then it has chance to be an infection. Usually for preparing the environment. 
+
+
+------------------------------------------------------
+
+# VirusShare_cdec0fbc4b154f5e91a835b64e59791b.sh
+
+## Summary
+This is the boring pattern. 
+1. CD to `/tmp` 
+2. Try both `wge` and `curl` with the same URLs to download binaries. 
+3. Change permission
+4. Execute
+5. sleep
+6. Agressively remove everthing under `/tmp/`. This also removes the executables after executing them. 
+
+
+------------------------------------------------------
+
+# VirusShare_af371b8592aa4914473d18e7afaa36fd.sh 
+
+This script does not look like for infection purpose. 
+It looks like for damage purpose. 
+
+## Summary
+1. List all files under current dir. 
+2. copy current script to (possibly overwrite) `._startup`, `._local` file and chenge permission for them. 
+3. It also copies itself to many places under `$HOME` and some other places.
+4. It removes `*.doc`, `*.xls`, `*.pdf`, `*.dbf`, `*.mdb`, `*.sql`. This looks like removing all data. 
+5. Download a file. 
+6. Run `kdialog`, a program for GUI. 
+7. exeute `wall`, a program that sends message to every other users. 
+8. exeute `lp`, a program to send files to printers to print. 
+
+
+## Notes
+1. This looks like copying this file to a place where the script will be executed automatically during startup. **Note that, we can use data dependency to check whether this file has copy itself or not.**
+2. **New command `wall`**
+3. **New command `lp`**
+
+
+
+------------------------------------------------------
+
+# VirusShare_9c0fd9e804e88ae5b600a4b3132bad07.sh 
+
+This is a script for Mac OS. Because the path is `/Library`
+
+## Summary
+1. It includes hard-coded script. 
+
+
+
+------------------------------------------------------
+
+# VirusShare_3b3b7a7e51d60a09e0c0e54f48b2b2db.sh 
+
+
+## Summary
+
+
+
+
+
+
+
+
+
+
 
 
 
