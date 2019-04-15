@@ -760,8 +760,171 @@ This is a script for Mac OS. Because the path is `/Library`
 
 
 ## Summary
+1. Go to `/var/tmp` and download, change permission, execute. Delete the string of "bins" in the `/etc/hosts` to avoid tracking. 
+2. Get current file name. 
+3. Use a hard-coded file. 
+4. Decode (`base64`) and unzip (`gunzip`) the file
+5. remove temp file
+6. change permission
+7. kill similar process (`minerd`)
+8. Execute and remove the executable immediately.
+9. create a new account
+10. remove **aggressively** all the processes. 
+11. launch port scan `zamp`. 
+12. use `sshpass` to self-propagate. 
 
 
+## Notes
+1. Execute the file at the background and remove it immediately after execution is super suspicious. 
+2. Port scanning is suspicious. DW-CH-EXE-RM-Scanning is even more suspicious.
+
+
+----------------------------------------------------------------
+
+# VirusShare_cca56aebb39a9b4aae240732164104d9.sh
+
+
+## Summary
+1. check whether `soffta` has been installed. 
+2. If installed, write a shell code in-place, change permission, and schedule it in crontab
+3. If not installed, copy current script to `/tmp/soffta`, change permission, execute it. 
+
+
+## Notes
+1. In-place code writing is an indicator of infeciton. 
+#### **How to know whether a file is created by in-place code writing?**
+##### The answer is that writing to a file and execute immediately is a in-place writing.
+
+2. There is a self-propagate.
+3. This code may execute multiple times. It is possible to infer that this program try to access a file, and then try to write to it in the next execution. 
+
+#### **It is worth noting, self propagation is possible to be capture by system call level signal.**
+
+
+------------------------------------------------------------
+
+# VirusShare_23ec53aff40259ab0fd78cf64f4b3a21.sh 
+
+
+## Summary
+1. Remove a the `/usr/lib/libfl.so` if it exists. Then email the connent of the removed file to an email address. 
+2. If `/usr/sbin/apmd` is not there, copy `/usr/lib/.egcs/apmd` to `/usr/sbin/apmd`. Remove `/ect/rc.d/rc3.d/S16apmd`. Make a symlink for `/ect/rc.d/rc3.d/S16amp` pointing to `/usr/sbin/apmd`. 
+3. Execute `/usr/sbin/apmd`
+
+
+## Notes
+1. There is a piece of commented out code. Those code download a file, unzip it, execute `./go`. I guess the `./go` file is this script. 
+
+**2. There are multiple ways to execute a file.**
+1). `./` to execute
+2). add it to `cron`
+3). copy it to `/ect/rc.d`
+4). make a symlink and execute the symlink
+
+3. New command `apmd` for advanced power management daemon
+
+
+----------------------------------------------------------
+
+# VirusShare_989edc1edd131eadaf25584716669d29.sh 
+
+This script look like an innocent script.
+
+## Summary
+1. Lookup DNS for "chaos" with TXT records. 
+2. Execute `./bind` or `./x496` according to the response of the DNS record. 
+3. remove temp file. 
+
+
+
+## Notes
+1. New command `dig` for DNS lookup. 
+2. If not because of "vuln" (I guess short for vulnerability), I cannot say this is a malicious script. 
+
+
+
+----------------------------------------------------------
+
+# VirusShare_2883000f680c3c2ec6aca3bb663a04fe.sh 
+
+This script is obscure. 
+
+## Summary
+1. Some parameters are set.
+2. Use `curl` to donwload a file. 
+3. Read and check the file. 
+4. execute a binary (not a downloaded one) `./haiduc` using the donwloaded file and some other pre-defined variables as arguments. 
+5. Download a php file. 
+6. Use `pkill` and `killall` to kill the just executed binary. **This does not look like infection since infection does not kill itself.**
+7. download using `curl` and execute `php`.
+8. Use `pkill` and `killall` to kill `haiduc` agian. 
+9. remove temp files. 
+
+
+## Notes
+It's hard to say this file is malicious. 
+1. The `./haicud` porgram is similar to `ssh`. 
+2. The `php` is executed may be because of its vulnerability. However, we cannot see any further exploitation, such as copying file, launching bash. So, this may not exploit `php`'s vulnerability. 
+
+
+
+----------------------------------------------------------
+
+# VirusShare_8ce21b79623d575b2d85321808187400.sh 
+
+This is just a single line of the "boring" pattern. FP-DW-CH-EXE
+
+
+
+----------------------------------------------------------
+
+# VirusShare_84e39576777d1556cdc87a30d541b7c7.sh 
+
+This looks like a innocent script because it has its copyright on 2014. 
+
+## Summary
+This script uses `dirname` and `basename` under itself. Then it runs a gdb-style tool. 
+
+
+
+----------------------------------------------------------
+
+# VirusShare_e158c98a90cc7b14d026443cbcd8b520.sh 
+
+This script may be copied or modified from other scripts. 
+
+## Summary
+1. Set variables and pats. 
+2. Check whether the caller is `root` or not. 
+3. If it's not `root`, Download using `curl` a file to `/tmp/lower.sh`, change permission, execute it on background. Then if download fails, it use `wget` to downlaod `/tmp/lowerv2.sh`, change permission, execute it on background. 
+4. Otherwise, it set a donwload command (`curl`) in the `/var/spool/cron/root`, and `/var/spool/cron/crontabs/root`. Download using `curl` a file to `/tmp/root.sh`, change permission, execute it on bg. Then if download fails, it uses `wget` to download `/tmp/rootv2.sh`, change permission and execute it on bg. 
+
+
+# Note
+1. This script does not remove downloaded file after execution. 
+
+
+
+----------------------------------------------------------
+
+# VirusShare_c2474337dd6546c348d51083af731262.sh 
+
+This is the fourth time I observe this (similar) file.
+> VirusShare_9e04aad6d98f86a9cbe28bbf556da91e.sh 
+
+and some other.
+
+## Summary
+1. find the path of itself. 
+2. redirect the output to `/dev/null` to avoid printing. 
+3. Check whether the caller is `root`. 
+4. If it's not `root`, copy itself to `/etc/rc.local` and reboot. 
+5. If it's `root` Then do the following. 
+6. Kill a list of processes (not agressive)
+7. remove `/root/.bashrc` and `/home/pi/.bashrc`, then use `usermod` to create a new account `pi`. 
+8. Prepare public key. 
+9. Use hard-coded file. (very sucpicious)
+10. Another piece of hard-coded file (named $BOT). 
 
 
 
