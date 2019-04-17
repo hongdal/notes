@@ -925,8 +925,41 @@ and some other.
 8. Prepare public key. 
 9. Use hard-coded file. (very sucpicious)
 10. Another piece of hard-coded file (named $BOT). 
+11. Write the code to a file, change permission, execute the code, remove the file ($BOT)
+12. run port scan, 
+13. run killall `ssh` and `scp`
+14. self-propagate.
 
 
+---------------------------------------------------------
+
+# VirusShare_cfd699501ba0834cd88a1c79fd038fb1.sh
+
+```
+#!/bin/bash
+#
+# March 27 2002
+#
+# logwatch211.sh
+#
+# Proof of concept exploit code
+# for LogWatch 2.1.1
+# Waits for LogWatch to be run then gives root shell
+# For educational purposes only
+#
+# (c) Spybreak <spybreak@host.sk>
+```
+
+## Summary
+1. Get pids, execute `/tmp/logwatch.$2/cron`. 
+2. Modify `/etc/passwd`. 
+3. Modify `/etc/shadow`. 
+4. Switch to the newly added user(`master`)
+
+
+## Notes
+This script looks totally OK. It looks like this script is installing some program and run the program. I cannot see any infection-specific operations. 
+That is, it does not download, not remove, not propagate.
 
 
 
